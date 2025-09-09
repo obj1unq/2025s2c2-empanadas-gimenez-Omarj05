@@ -1,0 +1,6 @@
+import empleados.*
+
+test "error de pago en gimenez funciona" {
+    gimenez.fondo(14000)
+    gimenez.pagarEmpleado(galvan)
+}
