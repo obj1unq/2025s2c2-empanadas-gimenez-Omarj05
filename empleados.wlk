@@ -1,30 +1,29 @@
-//Ejercicio 1
-
 object gimenez {
-    var fondoParaSueldos = 300000
+    var property fondo = 300000
 
-    method pagarA_(empleado) {
-        fondoParaSueldos = fondoParaSueldos - (empleado.sueldoQueGana())
-        empleado.cobrarSueldoDelMes()
+    method pagarEmpleado(empleado) {
+        self.validarPagarEmpleado(empleado)
+        fondo = fondo - empleado.sueldo()
+        empleado.cobrarSueldo()
     }
 
-    method importeActualDelFondo() { return fondoParaSueldos } //getter
+    method validarPagarEmpleado(empleado) {
+        if (not self.puedePagar(empleado)) {
+            self.error("No se puede pagarle a empleado. Faltan " + (empleado.sueldo() - fondo))
+        }
+    }
+
+    method puedePagar(empleado) {
+        return fondo >= empleado.sueldo()
+    }
 }
 
 object galvan {
-    var sueldo = 15000
-    var deuda = 0
-    var dinero = 0
-    
-    method sueldo(_sueldo) { sueldo = _sueldo } //setter
+    var property sueldo = 15000
+    var property dinero = 0
+    var property deuda = 0
 
-    method sueldoQueGana() { return sueldo }    //getter
-
-    method deuda() { return deuda }             //getter
-
-    method dinero() { return dinero }           //getter
-
-    method cobrarSueldoDelMes() {
+    method cobrarSueldo() {
         dinero = dinero + (-deuda +sueldo).max(0)   //si deuda > sueldo --> no se añade dinero 
         deuda = ( -(-deuda +sueldo) ).max(0)        //si hay sobrante (deuda <= sueldo) --> la deuda queda en 0
     }
@@ -36,37 +35,22 @@ object galvan {
 }
 
 object baigorria {
-    var empanadasVendidas = 0
-    var sueldo = 0
-    var totalCobrado = 0
+    var property empanadasVendidas = 0
+    var property totalCobrado = 0
 
-    method sueldoQueGana() { return sueldo }                            //getter
+    method sueldo() { return empanadasVendidas * 15 }
 
-    method totalACobrar(_totalACobrar) { totalCobrado = _totalACobrar } //setter
+    method vender(cantidad) {
+        empanadasVendidas = empanadasVendidas + cantidad
+    }
 
-    method totalCobrado() { return totalCobrado }                       //getter
-
-    method sueldo(_sueldo) { sueldo = _sueldo }                         //setter
-    
-    method reiniciarContadorDeEmpanadas() {
+    method cobrarSueldo() {
+        totalCobrado = totalCobrado + self.sueldo()
         empanadasVendidas = 0
     }
-
-    method reiniciarMes() {
-        self.sueldo(0)
-        self.reiniciarContadorDeEmpanadas()
-    }
-    
-    method cobrarSueldoDelMes() {
-        totalCobrado = totalCobrado + sueldo
-        self.reiniciarMes()
-    }
-
-    method vender_Empanadas(cantidad){
-        empanadasVendidas = empanadasVendidas +cantidad                 //contador
-        sueldo = sueldo + (cantidad * 15)
-    }
 }
+
+
 
 
 
